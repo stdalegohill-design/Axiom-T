@@ -1,0 +1,14 @@
+# Build artifacts
+build/
+
+# Compiled outputs
+*.a
+*.exe
+*.obj
+*.o
+
+# Local reference material
+books/
+
+# VSCode local settings
+.vscode/
