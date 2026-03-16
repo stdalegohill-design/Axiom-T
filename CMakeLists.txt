@@ -11,21 +11,43 @@ else()
     add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# Core library — compiled as static, promoted to shared DLL in Milestone 4
+# =============================================================================
+# ThermoMath — static library (the engine)
+# =============================================================================
 add_library(ThermoMath STATIC
     src/Pressure.cpp
     src/Temperature.cpp
+    src/Mass.cpp
+    src/Energy.cpp
+    src/Volume.cpp
+    src/Power.cpp
+    src/NumericalSolver.cpp
+    src/IdealGas.cpp
 )
 
 target_include_directories(ThermoMath PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-# Test executable
+# =============================================================================
+# AxiomT — main application (Phase 1 demo)
+# =============================================================================
+add_executable(AxiomT
+    main.cpp
+)
+
+target_link_libraries(AxiomT PRIVATE ThermoMath)
+
+# =============================================================================
+# ThermoTests — test suite
+# =============================================================================
 add_executable(ThermoTests
     tests/catch2/catch_amalgamated.cpp
     tests/test_pressure.cpp
     tests/test_temperature.cpp
+    tests/test_units.cpp
+    tests/test_numerical_solver.cpp
+    tests/test_ideal_gas.cpp
 )
 
 target_include_directories(ThermoTests PRIVATE
@@ -34,3 +56,12 @@ target_include_directories(ThermoTests PRIVATE
 )
 
 target_link_libraries(ThermoTests PRIVATE ThermoMath)
+
+# =============================================================================
+# Build and run:
+#   cd build
+#   cmake .. -G "MinGW Makefiles"
+#   cmake --build .
+#   .\AxiomT.exe              <- main demo
+#   .\ThermoTests.exe         <- full test suite
+# =============================================================================
