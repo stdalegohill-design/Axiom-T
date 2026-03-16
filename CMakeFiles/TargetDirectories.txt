@@ -1,0 +1,5 @@
+C:/Users/alego/projects/Axiom-T/build/CMakeFiles/ThermoMath.dir
+C:/Users/alego/projects/Axiom-T/build/CMakeFiles/AxiomT.dir
+C:/Users/alego/projects/Axiom-T/build/CMakeFiles/ThermoTests.dir
+C:/Users/alego/projects/Axiom-T/build/CMakeFiles/edit_cache.dir
+C:/Users/alego/projects/Axiom-T/build/CMakeFiles/rebuild_cache.dir

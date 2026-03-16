@@ -1,0 +1,2 @@
+C:\msys64\ucrt64\bin\ar.exe qc libThermoMath.a CMakeFiles/ThermoMath.dir/src/Pressure.cpp.obj CMakeFiles/ThermoMath.dir/src/Temperature.cpp.obj CMakeFiles/ThermoMath.dir/src/Mass.cpp.obj CMakeFiles/ThermoMath.dir/src/Energy.cpp.obj CMakeFiles/ThermoMath.dir/src/Volume.cpp.obj CMakeFiles/ThermoMath.dir/src/Power.cpp.obj CMakeFiles/ThermoMath.dir/src/NumericalSolver.cpp.obj CMakeFiles/ThermoMath.dir/src/IdealGas.cpp.obj
+C:\msys64\ucrt64\bin\ranlib.exe libThermoMath.a
