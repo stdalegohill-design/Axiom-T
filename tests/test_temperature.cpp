@@ -18,7 +18,7 @@
 */
 
 #include "catch2/catch_amalgamated.hpp"
-#include "C:\Users\alego\projects\Axiom-T\include\units\temperature.h"
+#include "units/Temperature.h"
 #include <cmath>
 
 using Catch::Approx;

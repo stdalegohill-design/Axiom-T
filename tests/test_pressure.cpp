@@ -18,7 +18,7 @@
  */
 
 #include "catch2/catch_amalgamated.hpp"
-#include "C:\Users\alego\projects\Axiom-T\include\units\pressure.h"
+#include "units/Pressure.h"
 #include <cmath>
 using Catch::Approx;
 
