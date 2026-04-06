@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(Axiom-T VERSION 0.2.0 LANGUAGES CXX C)
+project(Axiom-T VERSION 0.3.0 LANGUAGES CXX C)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -11,31 +11,19 @@ else()
     add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# =============================================================================
-# SQLite amalgamated — C library, no C++ flags needed
-# Download from https://www.sqlite.org/download.html
-# Place sqlite3.h and sqlite3.c in externals/sqlite3/
-# =============================================================================
-add_library(SQLite3 STATIC
-    externals/sqlite3/sqlite3.c
-)
+# SQLite
+add_library(SQLite3 STATIC externals/sqlite3/sqlite3.c)
 target_include_directories(SQLite3 PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/externals/sqlite3
-)
-# Suppress warnings from SQLite amalgamated — it's third-party code
+    ${CMAKE_CURRENT_SOURCE_DIR}/externals/sqlite3)
 target_compile_options(SQLite3 PRIVATE
     $<$<C_COMPILER_ID:GNU>:-w>
     $<$<C_COMPILER_ID:Clang>:-w>
-    $<$<C_COMPILER_ID:MSVC>:/w>
-)
+    $<$<C_COMPILER_ID:MSVC>:/w>)
 target_link_libraries(SQLite3 PUBLIC
     $<$<PLATFORM_ID:Linux>:dl>
-    $<$<PLATFORM_ID:Linux>:pthread>
-)
+    $<$<PLATFORM_ID:Linux>:pthread>)
 
-# =============================================================================
-# ThermoMath — static library (the engine)
-# =============================================================================
+# ThermoMath
 add_library(ThermoMath STATIC
     src/Pressure.cpp
     src/Temperature.cpp
@@ -46,24 +34,24 @@ add_library(ThermoMath STATIC
     src/NumericalSolver.cpp
     src/IdealGas.cpp
     src/DataCore.cpp
+    src/ThermodynamicState.cpp
+    src/ComponentResult.cpp
+    src/Turbine.cpp
+    src/Compressor.cpp
+    src/Pump.cpp
+    src/RankineCycle.cpp
 )
 
 target_include_directories(ThermoMath PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/externals/sqlite3
-)
-
+    ${CMAKE_CURRENT_SOURCE_DIR}/externals/sqlite3)
 target_link_libraries(ThermoMath PUBLIC SQLite3)
 
-# =============================================================================
-# AxiomT — main application
-# =============================================================================
+# AxiomT executable
 add_executable(AxiomT main.cpp)
 target_link_libraries(AxiomT PRIVATE ThermoMath)
 
-# =============================================================================
-# ThermoTests — test suite
-# =============================================================================
+# ThermoTests
 add_executable(ThermoTests
     tests/catch2/catch_amalgamated.cpp
     tests/Test_Pressure.cpp
@@ -72,20 +60,10 @@ add_executable(ThermoTests
     tests/Test_NumericalSolver.cpp
     tests/Test_IdealGas.cpp
     tests/Test_DataCore.cpp
+    tests/Test_Components.cpp
 )
-
 target_include_directories(ThermoTests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}/tests
-    ${CMAKE_CURRENT_SOURCE_DIR}/externals/sqlite3
-)
-
+    ${CMAKE_CURRENT_SOURCE_DIR}/externals/sqlite3)
 target_link_libraries(ThermoTests PRIVATE ThermoMath)
-
-# =============================================================================
-# Build:
-#   cmake .. -G "MinGW Makefiles"
-#   cmake --build .
-#   .\AxiomT.exe
-#   .\ThermoTests.exe "[datacore]" -v high
-# =============================================================================
